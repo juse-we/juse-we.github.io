@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html id="html-wrapper" class="">
+<head>
+  <title>体测时间表</title>
+  <meta charset="utf-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <style>
+    input,
+    textarea,
+    button {
+      -moz-appearance: button;
+      -webkit-appearance: button;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    button:focus {
+      outline: 0;
+    }
+
+    .contact-item {
+      color: #777;
+      border-bottom: 1px solid #bbb;
+      padding-bottom: 10px;
+    }
+
+    .contact-item:last-child {
+      border: 0 none;
+    }
+
+    .contact-item .company {
+      color: #000;
+      font-size: 18px;
+      margin: 10px 0 5px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .search-text {
+      flex: 1;
+      font-size: 14px;
+      width: 80%;
+      border: 1px solid #bbb;;
+      border-right: 0 none;
+      border-radius: 0;
+      padding: 0 5px;
+      line-height: 40px;
+      height: 40px;
+    }
+
+    .search-text:focus {
+      border-color: #e60012;
+    }
+
+    .search {
+      display: inline-block;
+      background-color: #e60012;
+      color: #fff;
+      font-size: 14px;
+      height: 40px;
+      line-height: 40px;
+      padding: 0px 15px;
+      border: 1px solid #e60012;;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="search-box">
+    <input class="search-text" type="text" placeholder="请输入公司名称" v-model="words">
+    <div class="search" @click="search">搜索</div>
+  </div>
+  <div class="contact-list">
+    <div class="contact-item" v-for="item in message" v-show="item.show">
+      <div class="company">{{item.company}}</div>
+      <div class=""><span>地址：</span>{{item.addr}}</div>
+      <div class=""><span>时间：</span>{{item.start_time}}——{{item.end_time}}</div>
+      <div class=""><span>联系人：</span>{{item.contact}}</div>
+      <div class=""><span>联系方式：</span><a :href="'tel:'+item.phone">{{item.phone}}</a></div>
+    </div>
+  </div>
+</div>
+<!--<script src="js/vue.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+  var app = new Vue({
+      el: '#app',
+      data: {
+        words: '',
+        message: [
+          {
+            "show": true,
+            "company": "西安太白印象城&西安龙首印象城&西区本部&诺富特酒店",
+            "start_time": "9月1日",
+            "end_time": "9月1日",
+            "city": "西安",
+            "addr": "西安市未央区未央路33号龙首印象城",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "郑州公司",
+            "start_time": "9月2日",
+            "end_time": "9月7日",
+            "city": "郑州",
+            "addr": "河南省郑州市管城区万通街与西周路交叉口向东50米路北",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "中山公司",
+            "start_time": "9月3日",
+            "end_time": "9月4日",
+            "city": "中山",
+            "addr": "东区起湾道竹苑广场四楼万科",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "西安公司",
+            "start_time": "9月3日",
+            "end_time": "9月7日",
+            "city": "西安",
+            "addr": "西安市曲江新区雁翔路3369号，曲江创意谷文创办公H座",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "沈阳公司&沈阳新土木",
+            "start_time": "9月4日",
+            "end_time": "9月7日",
+            "city": "沈阳",
+            "addr": "沈阳市和平区和盛巷6号浑河万科中心",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "温州公司",
+            "start_time": "9月6日",
+            "end_time": "9月7日",
+            "city": "温州",
+            "addr": "浙江省温州市龙湾区玉苍西路2号富得宝商业广场2号楼三楼",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "印力广深区域",
+            "start_time": "9月6日",
+            "end_time": "9月7日",
+            "city": "深圳",
+            "addr": "深圳市福田区农林路69号深国投广场2号写字楼",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "太原公司&太原新土木",
+            "start_time": "9月10日",
+            "end_time": "9月12日",
+            "city": "太原",
+            "addr": "太原市晋源区万科金域蓝湾299号底商",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "印力总部/印力物业本部",
+            "start_time": "9月10日",
+            "end_time": "9月11日",
+            "city": "深圳",
+            "addr": "深圳市福田区深国投广场2号楼12楼",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "深圳公司&区域本部",
+            "start_time": "9月10日",
+            "end_time": "9月21月",
+            "city": "深圳",
+            "addr": "深圳市福田区皇岗路5003号",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "兰州公司银川事业部",
+            "start_time": "9月10日",
+            "end_time": "9月10日",
+            "city": "银川",
+            "addr": "银川兴庆路民族街吉佳健身",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "宁波深国投商用置业有限公司",
+            "start_time": "9月10日",
+            "end_time": "9月10日",
+            "city": "宁波",
+            "addr": "宁波市鄞州区钱湖北路288号宁波印象城4楼管理办公室",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "宁波航万置业有限公司",
+            "start_time": "9月10日",
+            "end_time": "9月10日",
+            "city": "宁波",
+            "addr": "浙江省宁波市镇海区庄市大道1088号",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "北京城市公司",
+            "start_time": "9月11日",
+            "end_time": "9月11日",
+            "city": "沈阳",
+            "addr": "沈阳市和平区中华路9号沃尔玛4楼",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "冷链物流（宁波）",
+            "start_time": "9月12日",
+            "end_time": "9月12日",
+            "city": "宁波",
+            "addr": "浙江省宁波市北仑区霞浦街道万泉河路89号",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "兰州公司（含西宁事业部）",
+            "start_time": "9月13日",
+            "end_time": "9月13日",
+            "city": "兰州",
+            "addr": "安宁区连城铝业大厦-F1",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "冷链物流（奉贤）",
+            "start_time": "9月14日",
+            "end_time": "9月14日",
+            "city": "上海",
+            "addr": "上海市奉贤区海港经济开发区海杰路399号 ",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "北京城市公司",
+            "start_time": "9月14日",
+            "end_time": "9月14日",
+            "city": "天津",
+            "addr": "天津市西青区友谊南路111号印象城",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "冀北公司",
+            "start_time": "9月16日",
+            "end_time": "9月18日",
+            "city": "唐山",
+            "addr": "河北省唐山市高新区火炬路118号龙信控股院内万科",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "嘉兴公司",
+            "start_time": "9月17日",
+            "end_time": "9月17日",
+            "city": "嘉兴",
+            "addr": "嘉兴市南湖区槜李路金融广场c座20楼",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "北京城市公司",
+            "start_time": "9月17日",
+            "end_time": "9月17日",
+            "city": "济南",
+            "addr": "济南市历下区泉城路339号悦荟广场四楼",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "重庆公司",
+            "start_time": "9月17日",
+            "end_time": "9月21日",
+            "city": "重庆",
+            "addr": "重庆市渝北区金开大道351号万科万悦汇三楼",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "印力上海城市公司本部&印力上海南翔开发&印力上海南翔印象城",
+            "start_time": "9月19日",
+            "end_time": "9月21日",
+            "city": "上海",
+            "addr": "上海市闵行区申滨南路1226号虹桥新地中心B栋 802-803室",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "石家庄公司&石家庄新土木",
+            "start_time": "9月20日",
+            "end_time": "9月20日",
+            "city": "石家庄",
+            "addr": "河北省石家庄市长安区勒泰35层万科",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "北京城市公司",
+            "start_time": "9月21日",
+            "end_time": "9月21日",
+            "city": "大连",
+            "addr": "大连市西岗区中山路291号印象城",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "杭州公司",
+            "start_time": "9月25日",
+            "end_time": "9月25日",
+            "city": "杭州",
+            "addr": "杭州市西湖区学院路77号黄龙万科中心H座8F",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "青岛公司&青岛新土木",
+            "start_time": "9月25日",
+            "end_time": "9月28日",
+            "city": "青岛",
+            "addr": "青岛市市北区黑龙江南路2号乙万科中心B座22层",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "长春公司&长春新土木",
+            "start_time": "9月25日",
+            "end_time": "9月27日",
+            "city": "长春",
+            "addr": "长春市二道区东盛大街666号万科蓝山办公楼",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "海南公司",
+            "start_time": "9月25日",
+            "end_time": "9月26日",
+            "city": "三亚",
+            "addr": "海南省三亚市吉阳区学院路181号万科森林度假公园",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "武汉印力",
+            "start_time": "9月25日",
+            "end_time": "9月27日",
+            "city": "武汉",
+            "addr": "武汉市江汉区常青路177号武汉君澜大酒店3层",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "杭州印力商业管理有限公司（杭州印力合并测试）",
+            "start_time": "9月27日",
+            "end_time": "9月27日",
+            "city": "杭州",
+            "addr": "杭州市余杭区五常大道1号 西溪印象城4F印力管理办公室",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          }, {
+            "show": true,
+            "company": "杭州润衡置业有限公司（杭州印力合并测试）",
+            "start_time": "9月27日",
+            "end_time": "9月27日",
+            "city": "杭州",
+            "addr": "杭州市余杭区五常大道1号 西溪印象城4F",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          }, {
+            "show": true,
+            "company": "杭州润灏置业有限公司&杭州金沙项目（杭州印力合并测试）",
+            "start_time": "9月27日",
+            "end_time": "9月27日",
+            "city": "杭州",
+            "addr": "杭州下沙东部国际商务中心2幢902室",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "武汉公司",
+            "start_time": "9月28日",
+            "end_time": "9月30日",
+            "city": "武汉",
+            "addr": "武汉市武昌区中北路9号长城汇T1-605",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "扬州万科",
+            "start_time": "9月29日",
+            "end_time": "9月30日",
+            "city": "扬州",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "北京城市公司",
+            "start_time": "9月29日",
+            "end_time": "9月29日",
+            "city": "哈尔滨",
+            "addr": "哈尔滨市道里区中央大街222号百盛座7层",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "珠海公司",
+            "start_time": "9月28日",
+            "end_time": "9月29日",
+            "city": "珠海",
+            "addr": "珠海市香洲区敬业路51号A1栋4-6层",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "冷链物流（廊坊）",
+            "start_time": "10月8日",
+            "end_time": "10月8日",
+            "city": "廊坊",
+            "addr": "河北廊坊开发区凤鸣道18号太古冷链物流",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "区域本部",
+            "start_time": "10月8日",
+            "end_time": "10月8日",
+            "city": "上海",
+            "addr": "上海市闵行区虹桥万科中心T3九层",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "徐州公司",
+            "start_time": "10月8日",
+            "end_time": "10月8日",
+            "city": "徐州",
+            "addr": "平山南路1号徐州植物园内徐州万科企业有限公司",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "营火虫教育",
+            "start_time": "10月8日",
+            "end_time": "10月8日",
+            "city": "深圳 ",
+            "addr": "深圳市龙岗区坂田街道万科星火Online 7 栋135 / 136 ",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          }, {
+            "show": true,
+            "company": "长沙",
+            "start_time": "10月8日",
+            "end_time": "10月9日",
+            "city": "长沙",
+            "addr": "湖南省长沙市芙蓉区万家丽中路一段176号旺德府国际25楼",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "上海公司",
+            "start_time": "10月9日",
+            "end_time": "10月11日",
+            "city": "上海",
+            "addr": "上海市闵行区虹桥万科中心T3七层",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "盐城公司",
+            "start_time": "10月10日",
+            "end_time": "10月10日",
+            "city": "盐城",
+            "addr": "江苏省盐城市亭湖区五星街道人名南路33号新都社区商务楼18层",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "北京公司&产业城镇&区域本部&北京新土木&印力北京公司&俄罗斯公司",
+            "start_time": "10月10日",
+            "end_time": "10月21日",
+            "city": "北京",
+            "addr": "北京市朝阳区农展南路甲一号万科中心",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "梅沙科技",
+            "start_time": "10月10日",
+            "end_time": "10月10日",
+            "city": "深圳",
+            "addr": "深圳市南山区西丽万科云设计公社B303-1",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "小泊科技",
+            "start_time": "10月11日",
+            "end_time": "10月11日",
+            "city": "深圳",
+            "addr": "深圳市南山区茶光路万科云创大厦14楼",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "玛曲信息科技",
+            "start_time": "10月11日",
+            "end_time": "10月11日",
+            "city": "深圳",
+            "addr": "深圳市南山区打石二路万科云设计公社B613a",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "南通公司",
+            "start_time": "10月12日",
+            "end_time": "10月13日",
+            "city": "南通",
+            "addr": "江苏省南通市港闸区北大街108号金域商业中心1号楼9楼",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "上海万晟",
+            "start_time": "10月12日",
+            "end_time": "10月12日",
+            "city": "上海",
+            "addr": "上海市闵行区虹桥万科中心T3六层",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "南宁印象城",
+            "start_time": "10月12日",
+            "end_time": "10月12日",
+            "city": "南宁",
+            "addr": "南宁市青云街18号南宁万达商业广场A座2、3、4层商场悦荟管理办公室",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "万丈资本",
+            "start_time": "10月15日",
+            "end_time": "10月15日",
+            "city": "上海",
+            "addr": "上海市黄浦区湖滨路168号无限极大厦2309室",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "印力上海南通印象城",
+            "start_time": "10月15日",
+            "end_time": "10月15日",
+            "city": "南通",
+            "addr": "江苏省南通市崇川区印象城写字楼5楼",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "东莞公司",
+            "start_time": "10月15日",
+            "end_time": "10月19日",
+            "city": "东莞",
+            "addr": "广东省东莞市南城区石竹路广发金融大厦商业楼万科",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "南宁万科",
+            "start_time": "10月15日",
+            "end_time": "10月18日",
+            "city": "南宁",
+            "addr": "南宁市青秀区朱槿路10号星岛国际501",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "宁波公司",
+            "start_time": "10月17日",
+            "end_time": "10月19日",
+            "city": "宁波",
+            "addr": "宁波市市启新路128号F幢",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "苏州公司&印力上海苏州城市活力中心&印力上海苏州印象城",
+            "start_time": "10月17日",
+            "end_time": "10月19日",
+            "city": "苏州",
+            "addr": "苏州工业园区旺墩路金鸡湖商业广场万科大楼",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "无锡公司",
+            "start_time": "10月22日",
+            "end_time": "10月23日",
+            "city": "无锡",
+            "addr": "无锡市滨湖区金融一街11号平安财富中心22楼",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "福州公司",
+            "start_time": "10月22日",
+            "end_time": "10月25日",
+            "city": "福州",
+            "addr": "福州市台江区振武路68号万科金域中央商业1号楼3层",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "广州公司&区域本部",
+            "start_time": "10月22日",
+            "end_time": "10月31日",
+            "city": "广州",
+            "addr": "广州市越秀区二沙岛新创举中心",
+            "contact": "徐成城"
+          },
+          {
+            "show": true,
+            "company": "昆明公司",
+            "start_time": "10月22日",
+            "end_time": "10月26日",
+            "city": "昆明",
+            "addr": "昆明市盘龙区北京路2190号万科金域缇香商业街1栋3楼",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "济南公司&济南新土木",
+            "start_time": "10月23日",
+            "end_time": "10月26日",
+            "city": "济南",
+            "addr": "山东省济南市经十东路鲁商国奥城2号楼18层万科办公区",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "印力上海江阴印象汇",
+            "start_time": "10月25日",
+            "end_time": "10月25日",
+            "city": "无锡江阴",
+            "addr": "江阴市澄江中路87、89号",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "印力上海常熟印象城",
+            "start_time": "10月29日",
+            "end_time": "10月29日",
+            "city": "常熟",
+            "addr": "常熟市海虞南路88号",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "厦门公司",
+            "start_time": "10月29日",
+            "end_time": "11月6日",
+            "city": "厦门",
+            "addr": "厦门市湖里区高林中路53号万科云玺会议中心V8",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "天津公司&天津新土木",
+            "start_time": "10月29日",
+            "end_time": "10月31日",
+            "city": "天津",
+            "addr": "天冿市河西区梅江南环岛西路梅江中心大厦19层",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "贵阳万科大都会",
+            "start_time": "10月31日",
+            "end_time": "11月2日",
+            "city": "贵阳",
+            "addr": "贵阳市小河区万科广场写字楼A座10楼",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "贵阳公司",
+            "start_time": "10月31日",
+            "end_time": "11月2日",
+            "city": "贵阳",
+            "addr": "贵阳市云岩区水东路万科玲珑湾贵阳万科房地产有限公司",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "合肥公司",
+            "start_time": "11月1日",
+            "end_time": "11月4日",
+            "city": "合肥",
+            "addr": "安徽省合肥市庐阳区四里河路与潜山路交口万科中心4楼",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "集团总部",
+            "start_time": "11月1日",
+            "end_time": "11月3日",
+            "city": "深圳",
+            "addr": "深圳市盐田区环梅路33号万科中心集团总部",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "佛山公司",
+            "start_time": "11月6日",
+            "end_time": "11月9日",
+            "city": "佛山",
+            "addr": "广东省佛山市禅城区季华五路万科金融中心4楼",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "印力上海南京江北印象汇&印力上海南京新街口印象汇",
+            "start_time": "11月6日",
+            "end_time": "11月6日",
+            "city": "南京",
+            "addr": "南京市浦口区大桥北路58号印象汇5楼",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "大连公司&大连新土木",
+            "start_time": "11月6日",
+            "end_time": "11月8日",
+            "city": "大连",
+            "addr": "辽宁省大连市甘井子区周水子广场6号，大连万科置业有限公司",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "西区成都办公室",
+            "start_time": "11月7日",
+            "end_time": "11月15日",
+            "city": "成都",
+            "addr": "成都市成华区建设路万科华茂广场写字楼1612",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "万科产业城镇（中西部）有限公司",
+            "start_time": "11月7日 ",
+            "end_time": "11月8日 ",
+            "city": "成都 ",
+            "addr": "成都市高新区天府四街300号22楼",
+            "contact": "叶翔 ",
+            "phone": "13955171763 "
+          }, {
+            "show": true,
+            "company": "南京公司",
+            "start_time": "11月8日",
+            "end_time": "11月9日",
+            "city": "南京",
+            "addr": "南京市秦淮区凤游寺路52号悦动新门西产业园8栋南京万科",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "冷链物流（厦门）",
+            "start_time": "11月8日",
+            "end_time": "11月8日",
+            "city": "厦门",
+            "addr": "厦门市海沧区柯井路18号",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "区域本部",
+            "start_time": "11月9日",
+            "end_time": "11月15日",
+            "city": "成都",
+            "addr": "成都市高新区天府四街300号21楼",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "成都公司",
+            "start_time": "11月9日",
+            "end_time": "11月15日",
+            "city": "成都",
+            "addr": "成都市高新区天府四街300号19楼",
+            "contact": "叶翔",
+            "phone": "13955171763"
+          },
+          {
+            "show": true,
+            "company": "南昌公司",
+            "start_time": "11月12日",
+            "end_time": "11月13日",
+            "city": "南昌",
+            "addr": "江西省南昌市高新区艾溪湖北路188号江西万科中心5楼",
+            "contact": "朱晓冬",
+            "phone": "18326095405"
+          },
+          {
+            "show": true,
+            "company": "印力上海马鞍山印象汇",
+            "start_time": "11月12日",
+            "end_time": "11月12日",
+            "city": "马鞍山",
+            "addr": "马鞍山市花山区雨山东路863号印象汇购物中心",
+            "contact": "顾磊",
+            "phone": "18255163290"
+          },
+          {
+            "show": true,
+            "company": "烟台公司&烟台新土木",
+            "start_time": "11月12日",
+            "end_time": "11月14日",
+            "city": "烟台",
+            "addr": "山东省烟台市莱山区滨海中路61号",
+            "contact": "王琪",
+            "phone": "18600706817"
+          },
+          {
+            "show": true,
+            "company": "万翼科技",
+            "start_time": "11月12日",
+            "end_time": "11月12日",
+            "city": "深圳",
+            "addr": "深圳市盐田区环梅路33号万科中心集团总部",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          },
+          {
+            "show": true,
+            "company": "冷链物流（南京）",
+            "start_time": "11月12日",
+            "end_time": "11月12日",
+            "city": "南京",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "新疆公司",
+            "start_time": "11月14日",
+            "end_time": "11月15日",
+            "city": "新疆",
+            "addr": "乌鲁木齐城市水磨沟区龙盛街898号",
+            "contact": "柴迪峰",
+            "phone": "18605317237"
+          },
+          {
+            "show": true,
+            "company": "万翼科技",
+            "start_time": "11月14日",
+            "end_time": "11月15日",
+            "city": "深圳",
+            "addr": "深圳市南山区粤兴六道中科纳能大厦B区6楼",
+            "contact": "徐成城",
+            "phone": "15665517613"
+          }
+        ]
+      },
+      methods: {
+        search() {
+          var that = this;
+          this.message.forEach(function (item) {
+            if (item.company.indexOf(that.words) > -1) {
+              item.show = true;
+            } else {
+              item.show = false;
+            }
+          });
+        }
+      }
+    })
+  ;
+</script>
+</body>
+</html>
